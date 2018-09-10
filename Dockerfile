@@ -16,10 +16,13 @@ ADD --chown=wso2:wso2 https://s3-eu-west-1.amazonaws.com/misc.isollab.com/dl/wso
 RUN cd /opt/wso2 \
 	&& unzip wso2am-2.5.0.zip \
 	&& rm wso2am-2.5.0.zip \
-	&& ln -s /opt/wso2/wso2am-2.5.0/opt/wso2/am
+	&& ln -s /opt/wso2/wso2am-2.5.0 /opt/wso2/am
 
 ADD https://s3-eu-west-1.amazonaws.com/misc.isollab.com/dl/postgresql-42.2.4.jar /opt/wso2/am/lib/
 
+USER root
+RUN chmod 644 /opt/wso2/am/lib/postgresql-42.2.4.jar
+USER wso2
 WORKDIR /opt/wso2/am
-RUN ls -l /opt/wso2/am/bin/
+
 CMD ["/opt/wso2/am/bin/wso2server.sh"]
